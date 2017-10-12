@@ -9,7 +9,7 @@ clearPhotos()
 clearNames()
 clearAlPhotos()
 clearAlNames()
-// clearTwitterPhotos()
+clearTwitterPhotos()
 clearTwitterNames()
 
 chrome.storage.sync.get('togglePhotos', function(data) {
@@ -198,22 +198,37 @@ function clearTwitterNames() {
     var prevStyle = document.getElementById('BIAS_NAMES_TWITTER');
     if (!toggleTwitterNames) {
       prevStyle.parentNode.removeChild(prevStyle);
-    } else if (toggleTwitterNames && !prevStyle) {
+    } else if (toggleTwitterNames) {
 
-      var style = document.createElement('style');
-      style.id = 'BIAS_NAMES_TWITTER';
+        // This won't re-run on page change, meaning that if you go home
+        // then back to profile you'll get the users name as the title
+        document.title = "Twitter";
 
-      document.body.appendChild(style);
+        if (!prevStyle) {
+            var style = document.createElement('style');
+            style.id = 'BIAS_NAMES_TWITTER';
 
-      var rules = [
-        'strong.fullname.show-popup-with-id { visibility: hidden; }',
-        'strong.fullname.show-popup-with-id:before { content: "Link To Profile"; visibility: visible; }',
-        'span.username.u-dir { visibility: hidden; }',
-        '.ProfileNameTruncated-link { visibility: hidden; }',
-        '.ProfileNameTruncated-link:before { content: "Link To Profile"; visibility: visible; }'
-      ]
+            document.body.appendChild(style);
 
-      rules.forEach((r, i) => style.sheet.insertRule(r, i));
+            var rules = [
+              'strong.fullname.show-popup-with-id { visibility: hidden; }',
+              'strong.fullname.show-popup-with-id:before { content: "Link To Profile"; visibility: visible; }',
+              'span.username.u-dir { visibility: hidden; }',
+              '.ProfileNameTruncated-link { visibility: hidden; }',
+              '.ProfileNameTruncated-link:before { content: "Link To Profile"; visibility: visible; }',
+              '.ProfileHeaderCard-nameLink { visibility: hidden; }',
+              '.ProfileHeaderCard-nameLink:before { content: "Link To Profile", visibility: visible; }',
+              'span.NewTweetButton-text { visibility: hidden; }',
+              'span.ProfileHeaderCard-urlText > a { visibility: hidden; }',
+              '.js-retweet-text b { visibility: hidden; }',
+              '.js-retweet-text b:before { visibility: visible; content: "User"; }',
+              'div.tooltip { visibility: hidden; }',
+              '.js-recommended-followers .fullname { visibility: hidden; }',
+              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }'
+            ]
+
+            rules.forEach((r, i) => style.sheet.insertRule(r, i));
+        }
     }
 }
 
@@ -222,14 +237,11 @@ function clearTwitterPhotos() {
         return;
     }
 
-    console.log('Clearing Twitter Photos')
-
     var styleId = 'BIAS_PHOTOS_TWITTER'
     var prevStyle = document.getElementById(styleId);
     if (!toggleTwitterPhotos && prevStyle) {
         prevStyle.parentNode.removeChild(prevStyle);
     } else if (toggleTwitterPhotos && !prevStyle) {
-        console.log('elif')
         var style = document.createElement('style');
         style.id = styleId;
 
@@ -238,7 +250,10 @@ function clearTwitterPhotos() {
         var rules = [
             'img.avatar.js-action-profile-avatar { visibility: hidden; }',
             '.ProfileCard-bg { visibility: hidden; }',
-            '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }'
+            '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }',
+            '.ProfileAvatar-image { visibility: hidden; }',
+            '.ProfileCanopy-headerBg > img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
+            '.ProfileCardMini-avatarImage { visibility: hidden; }'
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
