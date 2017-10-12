@@ -224,7 +224,9 @@ function clearTwitterNames() {
               '.js-retweet-text b:before { visibility: visible; content: "User"; }',
               'div.tooltip { visibility: hidden; }',
               '.js-recommended-followers .fullname { visibility: hidden; }',
-              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }'
+              '.js-recommended-followers .fullname:before { visibility: visible; content: "Link To Profile" }',
+              '.ActivityItem .fullname { visibility: hidden; }',
+              '.ActivityItem .fullname:before { visibility: visible; content: "Link To Profile" }',
             ]
 
             rules.forEach((r, i) => style.sheet.insertRule(r, i));
@@ -253,7 +255,8 @@ function clearTwitterPhotos() {
             '.ProfileCard-avatarImage.js-action-profile-avatar { visibility: hidden; }',
             '.ProfileAvatar-image { visibility: hidden; }',
             '.ProfileCanopy-headerBg > img { opacity: 0.5; -webkit-filter: blur(50px) !important; filter: blur(50px) !important; }',
-            '.ProfileCardMini-avatarImage { visibility: hidden; }'
+            '.ProfileCardMini-avatarImage { visibility: hidden; }',
+            '.ActivityItem .avatar { visibility: hidden; }'
         ]
 
         rules.forEach((r, i) => style.sheet.insertRule(r, i));
